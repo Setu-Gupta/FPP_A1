@@ -1,4 +1,5 @@
 #include <stamp.h>			// stamp APIs are declared here
+#include <stdio.h>
 
 int fib(int n)
 {
