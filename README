@@ -32,3 +32,7 @@ Roll Number: 2018190
 
 Note: Running make with help will display the usage information of the Makefile
         * make help
+
+References:
+        * My last semester's PRMP project
+        * https://www.geeksforgeeks.org/thread-functions-in-c-c/
