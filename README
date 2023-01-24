@@ -12,10 +12,12 @@ Roll Number: 2018190
                 $ make -j < release | debug >
 
 3. How to compile test cases
+        * Export the path to the stamp library
+                * export STAMP_PATH=$(pwd)/< release | debug >
         * Go to the tests directory
                 $ cd tests
-        * Run make with the test program of your choice as the first argument to make
-                $ make < fib | matrix | vector > -j
+        * Run make with the desired build type (release or debug)
+                $ make -j < release | debug >
 
 4. How to run test cases
         * Complete steps 2 and 3 first
@@ -27,3 +29,6 @@ Roll Number: 2018190
 5. How to clean
         * Run make with clean
                 $ make clean -j
+
+Note: Running make with help will display the usage information of the Makefile
+        * make help
