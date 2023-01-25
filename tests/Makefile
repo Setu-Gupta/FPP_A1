@@ -11,12 +11,12 @@ DBGTARGETS = $(patsubst ./%.cpp,debug/%,$(ALLSRC))
 
 .PHONY: release
 release: $(RELTARGETS)
-$(RELTARGETS): $(ALLSRC)
+./release/%: ./%.cpp
 	$(CXX) -I./../src -L$(STAMP_PATH) $(CXXFLAGS) $(RELFLAGS) -o $@ $< $(LDFLAGS)
 
 .PHONY: debug
 debug: $(DBGTARGETS)
-$(DBGTARGETS): $(ALLSRC)
+./debug/%: ./%.cpp
 	$(CXX) -I./../src -L$(STAMP_PATH) $(CXXFLAGS) $(DBGFLAGS) -o $@ $< $(LDFLAGS)
 
 clean:

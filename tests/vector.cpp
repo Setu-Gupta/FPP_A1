@@ -1,5 +1,6 @@
 #include <stamp.h>			// stamp APIs are declared here
 #include <assert.h>
+#include <stdio.h>
 
 int main(int argc, char** argv)
 {
