@@ -1,7 +1,7 @@
 #include <stamp.h>
 
 template<typename T>
-void create_thread(pthread_t &thread, T lambda)
+inline void create_thread(pthread_t &thread, T lambda)
 {
         auto wrapper = [](void* data) -> void* {
                 return (*static_cast<decltype(lambda)*>(data))();
@@ -58,18 +58,26 @@ void join_thread(pthread_t &thread)
 // accepts two C++11 lambda functions and runs the them in parallel
 void stamp::execute_tuple(std::function<void()> &&lambda1, std::function<void()> &&lambda2)
 {
+        auto start = std::chrono::high_resolution_clock::now();
+
         pthread_t thread1, thread2;
         create_thread_no_arg(thread1, std::move(lambda1));
         create_thread_no_arg(thread2, std::move(lambda2));
 
         join_thread(thread1);
         join_thread(thread2);
+        
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        std::cout << "StaMp Statistics: Threads = 2, Parallel execution time = " << (float)duration.count()/1000 << " seconds" << std::endl;
 }
 
 // parallel_for accepts a C++11 lambda function and runs the loop body (lambda) in 
 // parallel by using ‘numThreads’ number of Pthreads created inside StaMp
 void stamp::parallel_for(int low, int high, int stride, std::function<void(int)> &&lambda, int numThreads)
 {
+        auto start = std::chrono::high_resolution_clock::now();
+        
         int count = (high - low)/stride;
         pthread_t* threads = (pthread_t*)malloc(count * sizeof(pthread_t));
 
@@ -94,6 +102,10 @@ void stamp::parallel_for(int low, int high, int stride, std::function<void(int)>
                 join_thread(threads[i]);
         
         free(threads);
+        
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        std::cout << "StaMp Statistics: Threads = " << numThreads << ", Parallel execution time = " << (float)duration.count()/1000 << " seconds" << std::endl;
 }
 
 // Shorthand for using parallel_for when lowbound is zero and stride is one.
@@ -107,6 +119,8 @@ void stamp::parallel_for(int high, std::function<void(int)> &&lambda, int numThr
 // and inner for-loops. The suffixes “1” and “2” represents outter and inner loop properties respectively. 
 void stamp::parallel_for(int low1, int high1, int stride1, int low2, int high2, int stride2, std::function<void(int, int)> &&lambda, int numThreads)
 {
+        auto start = std::chrono::high_resolution_clock::now();
+        
         int outer_count = (high1 - low1)/stride1;
         int inner_count = (high2 - low2)/stride2;
 
@@ -138,6 +152,10 @@ void stamp::parallel_for(int low1, int high1, int stride1, int low2, int high2, 
                 join_thread(threads[i]);
         
         free(threads);
+        
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        std::cout << "StaMp Statistics: Threads = " << numThreads << ", Parallel execution time = " << (float)duration.count()/1000 << " seconds" << std::endl;
 }
 
 // Shorthand for using parallel_for if for both outer and inner for-loops, lowbound is zero and stride is one.

@@ -38,3 +38,4 @@ References:
         * https://stackoverflow.com/questions/20583531/lvalue-to-rvalue-reference-binding
         * https://www.bogotobogo.com/cplusplus/C11/5_C11_Move_Semantics_Rvalue_Reference.php
         * https://stackoverflow.com/questions/75246234/how-to-use-the-pthreads-library-in-c-with-functional-lambdas
+        * https://www.geeksforgeeks.org/measure-execution-time-function-cpp/
