@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -march=native -pedantic -Wall -Wextra -Werror -fPIC -std=c++11
+CXXFLAGS = -march=native -pedantic -Wall -Wextra -Werror -fPIC -std=c++11 -Wno-unused-parameter
 DBGFLAGS = -Og -g3 -ggdb
 RELFLAGS = -Ofast
 LDFLAGS = -shared -lpthread

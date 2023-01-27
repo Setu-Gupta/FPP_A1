@@ -6,13 +6,14 @@ inline void create_thread(pthread_t &thread, T lambda)
         auto wrapper = [](void* data) -> void* {
                 return (*static_cast<decltype(lambda)*>(data))();
         };
-
-        int error = pthread_create(&thread, NULL, wrapper, &lambda);
-        if(error)
-        {
-                std::cerr << "Failed to create thread: " << std::strerror(error);
-                std::exit(-1);
-        }
+        
+        wrapper(&lambda);
+        // int error = pthread_create(&thread, NULL, wrapper, &lambda);
+        // if(error)
+        // {
+        //         std::cerr << "Failed to create thread: " << std::strerror(error);
+        //         std::exit(-1);
+        // }
 }
 
 void create_thread_no_arg(pthread_t &thread, std::function<void()> &&lambda)
@@ -47,12 +48,13 @@ void create_thread_int_int(pthread_t &thread, std::function<void(int, int)> &&la
 
 void join_thread(pthread_t &thread)
 {
-        int error = pthread_join(thread, NULL);
-        if(error)
-        {
-                std::cerr << "Failed to join thread: " << std::strerror(error);
-                std::exit(-1);
-        }
+        return;
+        // int error = pthread_join(thread, NULL);
+        // if(error)
+        // {
+        //         std::cerr << "Failed to join thread: " << std::strerror(error);
+        //         std::exit(-1);
+        // }
 }
 
 // accepts two C++11 lambda functions and runs the them in parallel
