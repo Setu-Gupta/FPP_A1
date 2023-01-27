@@ -36,3 +36,7 @@ Note: Running make with help will display the usage information of the Makefile
 References:
         * My last semester's PRMP project
         * https://www.geeksforgeeks.org/thread-functions-in-c-c/
+        * https://thispointer.com/posix-how-to-create-a-thread-pthread_create-example-tutorial/
+        * https://stackoverflow.com/questions/20583531/lvalue-to-rvalue-reference-binding
+        * https://www.bogotobogo.com/cplusplus/C11/5_C11_Move_Semantics_Rvalue_Reference.php
+        * https://stackoverflow.com/questions/75246234/how-to-use-the-pthreads-library-in-c-with-functional-lambdas

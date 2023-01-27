@@ -1,5 +1,8 @@
 #include <pthread.h>
 #include <functional>
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
 
 namespace stamp
 {
