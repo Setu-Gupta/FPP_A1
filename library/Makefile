@@ -6,6 +6,7 @@ LDFLAGS = -shared -lpthread
 
 SRC = stamp.cpp
 TARGET = libstamp.so 
+DBGTARGET = libstampdbg.so 
 
 .PHONY: release
 release: $(TARGET)
@@ -13,12 +14,12 @@ $(TARGET): $(SRC)
 	$(CXX) -I. $(CXXFLAGS) $(RELFLAGS) -o $@ $< $(LDFLAGS)
 
 .PHONY: debug
-debug: $(TARGET)
-$(TARGET): $(SRC)
+debug: $(DBGTARGET)
+$(DBGTARGET): $(SRC)
 	$(CXX) -I. $(CXXFLAGS) $(DBGFLAGS) -o $@ $< $(LDFLAGS)
 
 clean:
-	rm -rf $(TARGET)
+	rm -rf $(TARGET) $(DBGTARGET)
 
 .PHONY: help
 help:

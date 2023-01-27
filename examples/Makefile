@@ -3,10 +3,12 @@ CXXFLAGS = -march=native -pedantic -Wall -Wextra -Werror -std=c++11 -Wno-unused-
 DBGFLAGS = -Og -g3 -ggdb
 RELFLAGS = -Ofast
 LDFLAGS = -lpthread -lstamp
+DBGLDFLAGS = -lpthread -lstampdbg
 
 SRC = src/stamp.cpp
 ALLSRC = $(wildcard ./*.cpp)
 TARGETS = $(patsubst ./%.cpp,./%,$(ALLSRC))
+DBGTARGETS = $(patsubst ./%.cpp,./%dbg,$(ALLSRC))
 
 .PHONY: release
 release: $(TARGETS)
@@ -14,12 +16,12 @@ release: $(TARGETS)
 	$(CXX) -I./../library -L$(STAMP_PATH) $(CXXFLAGS) $(RELFLAGS) -o $@ $< $(LDFLAGS)
 
 .PHONY: debug
-debug: $(TARGETS)
-./%: ./%.cpp
-	$(CXX) -I./../library -L$(STAMP_PATH) $(CXXFLAGS) $(DBGFLAGS) -o $@ $< $(LDFLAGS)
+debug: $(DBGTARGETS)
+./%dbg: ./%.cpp
+	$(CXX) -I./../library -L$(STAMP_PATH) $(CXXFLAGS) $(DBGFLAGS) -o $@ $< $(DBGLDFLAGS)
 
 clean:
-	rm -rf $(TARGETS)
+	rm -rf $(TARGETS) $(DBGTARGETS)
 
 .PHONY: help
 help:
