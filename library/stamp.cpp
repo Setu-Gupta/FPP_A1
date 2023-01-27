@@ -4,7 +4,7 @@ template<typename T>
 inline void create_thread(pthread_t &thread, T lambda)
 {
         auto wrapper = [](void* data) -> void* {
-                return (*static_cast<decltype(lambda)*>(data))();
+                return (*static_cast<T*>(data))();
         };
 
         int error = pthread_create(&thread, NULL, wrapper, &lambda);
