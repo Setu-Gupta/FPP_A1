@@ -1,0 +1,40 @@
+Name: Setu Gupta
+Roll Number: 2018190
+
+1. How to compile
+        * Go to the library sub-directory
+                $ cd $PROJECT_ROOT/library
+        * Run make with the desired build type (release or debug)
+                $ make -j < release | debug >
+
+2. How to compile test cases
+        * Export the path to the stamp library
+                * export STAMP_PATH=$PROJECT_ROOT/library
+        * Go to the examples directory
+                $ cd $PROJECT_ROOT/examples
+        * Run make with the desired build type (release or debug)
+                $ make -j < release | debug >
+
+3. How to run test cases
+        * Complete steps 1 and 2 first
+        * Go to the examples directory
+                $ cd $PROJECT_ROOT/examples
+        * Export the path to the library directory to the library preload path and run the executable
+                $ LD_LIBRARY_PATH=$PROJECT_ROOT/library:$LD_LIBRARY_PATH ./name_of_the_executable
+
+4. How to clean
+        * Run make with clean
+                $ make clean -j
+
+Notes:
+        * Running make with help will display the usage information of the Makefile
+                $ make help
+        * PROJECT_ROOT is the submission directory
+
+References:
+        * My last semester's PRMP project
+        * https://www.geeksforgeeks.org/thread-functions-in-c-c/
+        * https://thispointer.com/posix-how-to-create-a-thread-pthread_create-example-tutorial/
+        * https://stackoverflow.com/questions/20583531/lvalue-to-rvalue-reference-binding
+        * https://www.bogotobogo.com/cplusplus/C11/5_C11_Move_Semantics_Rvalue_Reference.php
+        * https://stackoverflow.com/questions/75246234/how-to-use-the-pthreads-library-in-c-with-functional-lambdas

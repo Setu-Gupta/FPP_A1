@@ -1,25 +1,25 @@
 CXX = g++
-CXXFLAGS = -march=native -pedantic -Wall -Wextra -Werror -Wno-unused-parameter -fPIC -std=c++11
+CXXFLAGS = -march=native -pedantic -Wall -Wextra -Werror -std=c++11 -Wno-unused-parameter
 DBGFLAGS = -Og -g3 -ggdb
 RELFLAGS = -Ofast
-LDFLAGS = -shared -lpthread
+LDFLAGS = -lpthread -lstamp
 
 SRC = src/stamp.cpp
-DBGTARGET = debug/libstamp.so 
-RELTARGET = release/libstamp.so
+ALLSRC = $(wildcard ./*.cpp)
+TARGETS = $(patsubst ./%.cpp,./%,$(ALLSRC))
 
 .PHONY: release
-release: $(RELTARGET)
-$(RELTARGET): $(SRC)
-	$(CXX) -I./src $(CXXFLAGS) $(RELFLAGS) -o $@ $< $(LDFLAGS)
+release: $(TARGETS)
+./%: ./%.cpp
+	$(CXX) -I./../library -L$(STAMP_PATH) $(CXXFLAGS) $(RELFLAGS) -o $@ $< $(LDFLAGS)
 
 .PHONY: debug
-debug: $(DBGTARGET)
-$(DBGTARGET): $(SRC)
-	$(CXX) -I./src $(CXXFLAGS) $(DBGFLAGS) -o $@ $< $(LDFLAGS)
+debug: $(TARGETS)
+./%: ./%.cpp
+	$(CXX) -I./../library -L$(STAMP_PATH) $(CXXFLAGS) $(DBGFLAGS) -o $@ $< $(LDFLAGS)
 
 clean:
-	rm -rf $(DBGTARGET) $(RELTARGET)
+	rm -rf $(TARGETS)
 
 .PHONY: help
 help:
