@@ -18,7 +18,7 @@ inline void create_thread(pthread_t &thread, T lambda)
 
 void create_thread_no_arg(pthread_t &thread, std::function<void()> &&lambda)
 {
-        auto _lambda = [&]() -> void* {
+        auto _lambda = [=]() -> void* {
                 lambda();
                 return nullptr;
         };
@@ -28,7 +28,7 @@ void create_thread_no_arg(pthread_t &thread, std::function<void()> &&lambda)
 
 void create_thread_int(pthread_t &thread, std::function<void(int)> &&lambda, int arg)
 {
-        auto _lambda = [&]() -> void* {
+        auto _lambda = [=]() -> void* {
                 lambda(arg);
                 return nullptr;
         };
@@ -38,7 +38,7 @@ void create_thread_int(pthread_t &thread, std::function<void(int)> &&lambda, int
 
 void create_thread_int_int(pthread_t &thread, std::function<void(int, int)> &&lambda, int arg1, int arg2)
 {
-        auto _lambda = [&]() -> void* {
+        auto _lambda = [=]() -> void* {
                 lambda(arg1, arg2);
                 return nullptr;
         };
