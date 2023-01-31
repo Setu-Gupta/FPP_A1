@@ -1,60 +1,54 @@
 #include <stamp.h>
 
-template<typename T>
-inline void create_thread(pthread_t &thread, T lambda)
+inline void create_thread(pthread_t &thread, void* (*fptr)(void*))
 {
-        auto wrapper = [](void* data) -> void* {
-                return (*static_cast<T*>(data))();
-        };
-        
-        wrapper(&lambda);
-        // int error = pthread_create(&thread, NULL, wrapper, &lambda);
-        // if(error)
-        // {
-        //         std::cerr << "Failed to create thread: " << std::strerror(error);
-        //         std::exit(-1);
-        // }
+        int error = pthread_create(&thread, NULL, fptr, NULL);
+        if(error)
+        {
+                std::cerr << "Failed to create thread: " << std::strerror(error);
+                std::exit(-1);
+        }
 }
 
 void create_thread_no_arg(pthread_t &thread, std::function<void()> &&lambda)
 {
-        auto _lambda = [=]() -> void* {
-                lambda();
-                return nullptr;
-        };
-
-        create_thread(thread, _lambda);
+        std::function<void*(void*)> func = [=](void*) -> void*
+                {
+                        lambda();
+                        return nullptr;
+                };
+        create_thread(thread, (void*(*)(void*))&func);
 }
 
 void create_thread_int(pthread_t &thread, std::function<void(int)> &&lambda, int arg)
 {
-        auto _lambda = [=]() -> void* {
-                lambda(arg);
-                return nullptr;
-        };
-
-        create_thread(thread, _lambda);
+        
+        std::function<void*(void*)> func = [=](void*) -> void*
+                {
+                        lambda(arg);
+                        return nullptr;
+                };
+        create_thread(thread, (void*(*)(void*))&func);
 }
 
 void create_thread_int_int(pthread_t &thread, std::function<void(int, int)> &&lambda, int arg1, int arg2)
 {
-        auto _lambda = [=]() -> void* {
-                lambda(arg1, arg2);
-                return nullptr;
-        };
-
-        create_thread(thread, _lambda);
+        std::function<void*(void*)> func = [=](void*) -> void*
+                {
+                        lambda(arg1, arg2);
+                        return nullptr;
+                };
+        create_thread(thread, (void*(*)(void*))&func);
 }
 
 void join_thread(pthread_t &thread)
 {
-        return;
-        // int error = pthread_join(thread, NULL);
-        // if(error)
-        // {
-        //         std::cerr << "Failed to join thread: " << std::strerror(error);
-        //         std::exit(-1);
-        // }
+        int error = pthread_join(thread, NULL);
+        if(error)
+        {
+                std::cerr << "Failed to join thread: " << std::strerror(error);
+                std::exit(-1);
+        }
 }
 
 // accepts two C++11 lambda functions and runs the them in parallel
